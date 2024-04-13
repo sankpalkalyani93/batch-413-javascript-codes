@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Currecny Converter</title>
+    </head>
+
+    <body>
+        <h1>This page demonstrates use of javascript fetch function to consume currency excangerates api.</h1>
+
+        <form>
+            <label>From : </label>
+            <select id="From">
+                <option value="USD">USD</option>
+                <option value="INR">INR</option>
+            </select>
+            <label>To: </label>
+            <select id="To">
+                <option value="USD">USD</option>
+                <option value="INR">INR</option>
+            </select>
+            <br>
+            <label>Amount To Convert</label>
+            <input type="text" id="amount"><br>
+            <button type="button" id="convert">Convert</button>
+        </form>
+
+        <script>
+            const to = document.getElementById("To");
+            const from = document.getElementById("From");
+            const convert = document.getElementById("convert");
+            const amount = document.getElementById("amount");
+                
+
+            convert.addEventListener("click", function(){
+
+                let fromCurrency = from.value;
+                let toCurrency = to.value;
+                let amt = amount.value;
+
+                fetch(`https://v6.exchangerate-api.com/v6/e203346a00047d664651dd88/latest/${fromCurrency}`)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    let rate = data.conversion_rates[toCurrency];
+                    let result = rate * amt;
+                    console.log("Total : " + result);
+                    document.write("Total : " + result + "<br>");
+                });
+            });
+        </script>
+    </body>
+</html>
